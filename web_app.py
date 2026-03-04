@@ -1,5 +1,8 @@
 import os
 os.environ["MEDIAPIPE_DISABLE_GPU"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+import os
+os.environ["MEDIAPIPE_DISABLE_GPU"] = "1"
 os.environ["MEDIAPIPE_CACHE_DIR"] = "/tmp"
 import streamlit as st
 import cv2
@@ -216,6 +219,7 @@ if ctx.video_processor:
                     else:
 
                         st.markdown(f'<div class="error-card">⚠️ Sign not recognized clearly ({confidence*100:.1f}%). Please try again.</div>', unsafe_allow_html=True)
+
 
 
 

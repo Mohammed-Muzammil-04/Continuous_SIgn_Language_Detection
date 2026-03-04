@@ -1,3 +1,5 @@
+import os
+os.environ["MEDIAPIPE_CACHE_DIR"] = "/tmp"
 import streamlit as st
 import cv2
 import numpy as np
@@ -203,6 +205,7 @@ if ctx.video_processor:
                     else:
 
                         st.markdown(f'<div class="error-card">⚠️ Sign not recognized clearly ({confidence*100:.1f}%). Please try again.</div>', unsafe_allow_html=True)
+
 
 
 

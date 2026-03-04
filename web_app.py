@@ -163,15 +163,28 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
+RTC_CONFIGURATION = RTCConfiguration({
+    "iceServers": [
+        {"urls": ["stun:stun.l.google.com:19302"]},
+        {"urls": ["stun:stun1.l.google.com:19302"]},
+        {"urls": ["stun:stun2.l.google.com:19302"]},
+    ]
+})
 
 ctx = webrtc_streamer(
     key="isl-translation",
     mode=WebRtcMode.SENDRECV,
     rtc_configuration=RTC_CONFIGURATION,
     video_processor_factory=SignLanguageProcessor,
-    media_stream_constraints={"video": True, "audio": False},
-    async_processing=True,
+    media_stream_constraints={
+    "video": {
+        "width": 640,
+        "height": 480,
+        "frameRate": 30
+    },
+    "audio": False
+    },
+    async_processing=False,
 )
 
 # --- DASHBOARD CONTROLS & OUTPUT ---
@@ -221,6 +234,7 @@ if ctx.video_processor:
                     else:
 
                         st.markdown(f'<div class="error-card">⚠️ Sign not recognized clearly ({confidence*100:.1f}%). Please try again.</div>', unsafe_allow_html=True)
+
 
 
 

@@ -1,9 +1,11 @@
 import os
 
+# Force CPU usage
 os.environ["MEDIAPIPE_DISABLE_GPU"] = "1"
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+# Reduce TensorFlow logs
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
-os.environ["OPENCV_VIDEOIO_PRIORITY_MSMF"] = "0"
 import streamlit as st
 import cv2
 import numpy as np
@@ -219,6 +221,7 @@ if ctx.video_processor:
                     else:
 
                         st.markdown(f'<div class="error-card">⚠️ Sign not recognized clearly ({confidence*100:.1f}%). Please try again.</div>', unsafe_allow_html=True)
+
 
 
 

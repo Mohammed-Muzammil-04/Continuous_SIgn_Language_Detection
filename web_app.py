@@ -10,7 +10,10 @@ from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, WebRtcMode, 
 import av
 import streamlit.components.v1 as components
 
-from utils import extract_landmarks, draw_styled_landmarks, mediapipe_detection, mp_holistic
+from utils import extract_landmarks, draw_styled_landmarks, mediapipe_detection
+import mediapipe as mp
+
+mp_hands = mp.solutions.hands
 from translator import SmartTranslator
 
 # --- PAGE CONFIGURATION ---
@@ -118,8 +121,7 @@ def speak_on_mobile(text):
 # --- WEBRTC VIDEO PROCESSOR ---
 class SignLanguageProcessor(VideoTransformerBase):
     def __init__(self):
-        self.holistic = mp_holistic.Holistic(static_image_mode=False,model_complexity=0,enable_segmentation=False,refine_face_landmarks=False,min_detection_confidence=0.5,min_tracking_confidence=0.5)
-        self.sequence = []
+        self.holistic = mp_hands.Hands(static_image_mode=False,max_num_hands=2,min_detection_confidence=0.5,min_tracking_confidence=0.5)self.sequence = []
         self.is_recording = False
 
     def recv(self, frame):
@@ -206,6 +208,7 @@ if ctx.video_processor:
                     else:
 
                         st.markdown(f'<div class="error-card">⚠️ Sign not recognized clearly ({confidence*100:.1f}%). Please try again.</div>', unsafe_allow_html=True)
+
 
 
 

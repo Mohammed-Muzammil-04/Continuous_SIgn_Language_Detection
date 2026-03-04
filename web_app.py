@@ -1,5 +1,15 @@
 import os
 os.environ["MEDIAPIPE_CACHE_DIR"] = "/tmp"
+import shutil
+
+# Fix mediapipe model permission issue on Streamlit Cloud
+SRC_MODEL = "pose_landmark_lite.tflite"
+DST_DIR = "/home/adminuser/venv/lib/python3.10/site-packages/mediapipe/modules/pose_landmark"
+DST_MODEL = os.path.join(DST_DIR, "pose_landmark_lite.tflite")
+
+if os.path.exists(SRC_MODEL) and not os.path.exists(DST_MODEL):
+    os.makedirs(DST_DIR, exist_ok=True)
+    shutil.copy(SRC_MODEL, DST_MODEL)
 import streamlit as st
 import cv2
 import numpy as np
@@ -205,6 +215,7 @@ if ctx.video_processor:
                     else:
 
                         st.markdown(f'<div class="error-card">⚠️ Sign not recognized clearly ({confidence*100:.1f}%). Please try again.</div>', unsafe_allow_html=True)
+
 
 
 
